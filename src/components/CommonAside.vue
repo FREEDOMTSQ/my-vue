@@ -9,9 +9,10 @@
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b"
+      router
     >
       <h3>通用后台管理系统</h3>
-      <el-menu-item v-for="item in noChildren" :key="item.name" :index="item.name">
+      <el-menu-item v-for="item in noChildren" :key="item.name" :index="item.name" >
         <i :class="`el-icon-${item.icon}`"></i>
         <span slot="title">{{item.label}}</span>
       </el-menu-item>
