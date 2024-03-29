@@ -6,7 +6,7 @@
       </el-aside>
       <el-container>
         <el-header>
-          <h1>Main页面</h1>
+          <common-header />
         </el-header>
         <el-main>
           <router-view></router-view>
@@ -17,10 +17,17 @@
 </template>
 <script>
 import CommonAside from '../components/CommonAside.vue'
+import CommonHeader from '../components/CommonHeader.vue'
 export default {
-  components:{ CommonAside},
+  components:{ CommonAside,CommonHeader },
   data() {
     return {};
   },
 };
 </script>
+<style lang="less">
+.el-header{
+  padding: 0;
+}
+  
+</style>
