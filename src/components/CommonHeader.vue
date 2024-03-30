@@ -20,7 +20,11 @@
 </template>
 <script>
 export default {
-  data() {},
+  data() {
+    return{
+      
+    }
+  },
   methods: {
     handleMenu(){
       this.$store.commit('collapseMenu')
@@ -36,6 +40,14 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: #fff;
+  .l-content{
+    span{
+      margin-left: 20px;
+      // line-height: 60px;
+    }
+  }
+
   .r-content{
     .user{
       width: 40px;
