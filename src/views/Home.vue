@@ -15,7 +15,7 @@
             <p>上次登录地点：<span>上海</span></p>
           </div>
         </el-card>
-        <el-card shadow="hover">
+        <el-card shadow="hover" style="margin-top:20px;height: 460px">
           <el-table
             :data="tableData"
             style="width: 100%">
@@ -46,44 +46,7 @@ import {getData} from '../api'
 export default {
   data() {
     return { 
-      tableData:[
-        {
-          name: 'oppo',
-          todayBuy: 100,
-          monthBuy: 300,
-          totalBuy: 800
-        },
-        {
-          name: 'vivo',
-          todayBuy: 100,
-          monthBuy: 300,
-          totalBuy: 800
-        },
-        {
-          name: '苹果',
-          todayBuy: 100,
-          monthBuy: 300,
-          totalBuy: 800
-        },
-        {
-          name: '小米',
-          todayBuy: 100,
-          monthBuy: 300,
-          totalBuy: 800
-        },
-        {
-          name: '三星',
-          todayBuy: 100,
-          monthBuy: 300,
-          totalBuy: 800
-        },
-        {
-          name: '魅族',
-          todayBuy: 100,
-          monthBuy: 300,
-          totalBuy: 800
-        }
-      ],
+      tableData:[],
       tableLabel:{
         name:'课程',
         todayBuy:'今日购买',
@@ -132,7 +95,8 @@ export default {
   },
   mounted(){
     getData().then( (data) => {
-      console.log(data);
+      let {tableData} = data.data.data
+      this.tableData = tableData
     })
   }
 }
