@@ -37,6 +37,11 @@
             </div>
           </el-card>
         </div>
+        <el-card style="height:280px"></el-card>
+        <div class="graph">
+          <el-card style="height:260px"></el-card>
+          <el-card style="height:260px"></el-card>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -170,6 +175,14 @@ export default {
   .el-card{
     width: 32%;
     margin-bottom: 20px;
+  }
+}
+.graph{
+  display: flex;
+  justify-content: space-between;
+
+  .el-card{
+    width: 48%;
   }
 }
   
