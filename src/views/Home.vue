@@ -37,7 +37,9 @@
             </div>
           </el-card>
         </div>
-        <el-card style="height:280px"></el-card>
+        <el-card style="height:280px">
+          <div ref="echart1" style="height:280px"></div>
+        </el-card>
         <div class="graph">
           <el-card style="height:260px"></el-card>
           <el-card style="height:260px"></el-card>
@@ -48,6 +50,7 @@
 </template>
 <script>
 import {getData} from '../api'
+import * as echarts from 'echarts'
 export default {
   data() {
     return { 
@@ -58,6 +61,7 @@ export default {
         monthBuy:'本月购买',
         totalBuy:'总购买'
       },
+      orderData:{},
       countData:[
         {
           name:'今日支付订单',
@@ -100,8 +104,34 @@ export default {
   },
   mounted(){
     getData().then( (data) => {
-      let {tableData} = data.data.data
+      console.log(data);
+      let {tableData,orderData} = data.data.data
       this.tableData = tableData
+      this.orderData = orderData
+
+      //基于准备好的dom，初始化echarts实例
+      const echart1 = echarts.init(this.$refs.echart1)
+      //指定图表的配置项和数据
+      const legend = Object.keys(this.orderData.data[0])
+      const seriesData = []
+      legend.forEach(key => {
+        seriesData.push({
+          name: key,
+          data:this.orderData.data.map(item => item[key]),
+          type:'line'
+        })
+      })
+      let echart1Option = {
+        xAxis: {
+          data: this.orderData.date
+        },
+        legend: {
+          data: legend
+        },
+        yAxis:{},
+        series:seriesData
+      }
+      echart1.setOption(echart1Option)
     })
   }
 }
@@ -178,6 +208,7 @@ export default {
   }
 }
 .graph{
+  margin-top: 20px;
   display: flex;
   justify-content: space-between;
 
