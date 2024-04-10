@@ -41,8 +41,12 @@
           <div ref="echart1" style="height:280px"></div>
         </el-card>
         <div class="graph">
-          <el-card style="height:260px"></el-card>
-          <el-card style="height:260px"></el-card>
+          <el-card style="height:260px">
+            <div ref="echart2" style="height:260px"></div>
+          </el-card>
+          <el-card style="height:260px">
+            <div ref="echart3" style="height:240px"></div>
+          </el-card>
         </div>
       </el-col>
     </el-row>
@@ -62,6 +66,8 @@ export default {
         totalBuy:'总购买'
       },
       orderData:{},
+      userData:[],
+      videoData:[],
       countData:[
         {
           name:'今日支付订单',
@@ -105,17 +111,26 @@ export default {
   mounted(){
     getData().then( (data) => {
       console.log(data);
-      let {tableData,orderData} = data.data.data
+      let {tableData,orderData,userData,videoData} = data.data.data
       this.tableData = tableData
       this.orderData = orderData
-
+      this.userData = userData
+      this.videoData = videoData
+      this.initEchart1()
+      this.initEchart2()
+      this.initEchart3()
+      
+    })
+  },
+  methods:{
+    initEchart1(){
       //基于准备好的dom，初始化echarts实例
       const echart1 = echarts.init(this.$refs.echart1)
       //指定图表的配置项和数据
-      const legend = Object.keys(this.orderData.data[0])
-      const seriesData = []
-      legend.forEach(key => {
-        seriesData.push({
+      const legend1 = Object.keys(this.orderData.data[0])
+      const seriesData1 = []
+      legend1.forEach(key => {
+        seriesData1.push({
           name: key,
           data:this.orderData.data.map(item => item[key]),
           type:'line'
@@ -126,13 +141,61 @@ export default {
           data: this.orderData.date
         },
         legend: {
-          data: legend
+          data: legend1
         },
         yAxis:{},
-        series:seriesData
+        series:seriesData1
       }
       echart1.setOption(echart1Option)
-    })
+    },
+    initEchart2(){
+      //基于准备好的dom，初始化echarts实例
+      const echart2 = echarts.init(this.$refs.echart2)
+      //指定图表的配置项和数据
+      const xAxis2 = this.userData.map(item => item.date)
+      let echart2Option = {
+        xAxis: {
+          data: xAxis2
+        },
+        legend: {
+          data: ['新增用户','活跃用户']
+        },
+        tooltip:{
+          show:true
+        },
+        yAxis:{},
+        series:[
+          {
+            name:'新增用户',
+            data:this.userData.map(item => item.new),
+            type:'bar'
+          },
+          {
+            name:'活跃用户',
+            data:this.userData.map(item => item.active),
+            type:'bar'
+          }
+        ],
+        color:[ '#73c0de',  '#ea7ccc']
+      }
+      echart2.setOption(echart2Option)
+    },
+    initEchart3(){
+      const echart3 = echarts.init(this.$refs.echart3)
+      let echart3Option = {
+        legend: {
+          data: ['新增用户','活跃用户']
+        },
+        tooltip:{
+          show:true
+        },
+        series:{
+          data:this.videoData,
+          type:'pie'
+        }
+      }
+      echart3.setOption(echart3Option)
+    }
   }
 }
 </script>
