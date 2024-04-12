@@ -3,8 +3,6 @@
     <el-menu
       default-active="home"
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
       :collapse="isCollapse"
       background-color="#545c64"
       text-color="#fff"
@@ -12,7 +10,7 @@
       router
     >
       <h3>{{isCollapse ? '后台':'通用后台管理系统'}}</h3>
-      <el-menu-item v-for="item in noChildren" :key="item.name" :index="item.name" >
+      <el-menu-item v-for="item in noChildren" :key="item.name" :index="item.name" @click="clickMenu(item)">
         <i :class="`el-icon-${item.icon}`"></i>
         <span slot="title">{{item.label}}</span>
       </el-menu-item>
@@ -21,7 +19,7 @@
           <i :class="`el-icon-${item.icon}`"></i>
           <span slot="title">{{item.label}}</span>
         </template>
-        <el-menu-item v-for="subItem in item.children" :key="subItem.name" :index="subItem.name">
+        <el-menu-item v-for="subItem in item.children" :key="subItem.name" :index="subItem.name" @click="clickMenu(item)">
           <template slot="title">
             <i :class="`el-icon-${subItem.icon}`"></i>
             <span slot="title">{{subItem.label}}</span>
@@ -93,12 +91,9 @@ export default {
     };
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
+    clickMenu(item){
+      this.$store.commit('selectMenu',item)
+    }
   },
 };
 </script>

@@ -1,9 +1,11 @@
 <template>
   <div class="header-container">
     <div class="l-content">
-      <el-button icon="el-icon-menu" @click="handleMenu" size="mini"></el-button>
+      <el-button style="margin-right:20px" icon="el-icon-menu" @click="handleMenu" size="mini"></el-button>
       <!-- 面包屑 -->
-      <span>首页</span>
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item v-for="item in tags" :key="item.path" :to="{ path: item.path }">{{item.label}}</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
     <div class="r-content">
       <el-dropdown>
@@ -19,7 +21,13 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
+  computed:{
+    ...mapState({
+      tags: state => state.tab.tabsList
+    })
+  },
   data() {
     return{
       
@@ -42,9 +50,18 @@ export default {
   align-items: center;
   color: #fff;
   .l-content{
-    span{
-      margin-left: 20px;
-      // line-height: 60px;
+    display:flex;
+    align-items: center;
+
+    .el-breadcrumb__item{
+      ::v-deep .is-link{
+        color: #999;
+      }
+      &:last-child{
+        ::v-deep .el-breadcrumb__inner{
+          color: #fff;
+        }
+      }
     }
   }
 
